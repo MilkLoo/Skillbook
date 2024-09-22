@@ -619,3 +619,9 @@ FROM employees;
 | BENCHMARK(N,EXPR)   | 将表达式expr重复执行n次。用于测试处理expr所消耗的时间        |
 | CONVERT(N,EXPR)     | 将value所使用的字符编码修改为char_code                       |
 
+---
+
+## 聚合函数
+
+* **常见的几个聚合函数**
+
