@@ -458,21 +458,164 @@ SELECT CONCAT(emp.last_name,'worked for',mgr.laste_name) FROM employees emp JOIN
 
 * **日期与时间函数**
 
-| 函数                                                         | 用法                           |
-| ------------------------------------------------------------ | ------------------------------ |
-| **<font color=red>CURDATE()</font>**,CURRENT_DATE()          | 返回当前日期，只包含年、月、日 |
-| **<font color=red>CURTIME()</font>**,CURRENT_TIME()          | 返回当前时间，只包含时，分，秒 |
-| **<font color=red>NOW()</font>** / SYSDATA()/ CURRENT_TIMESTAMP() / LOCALTIME() / LOCALTIMESTAMP() | 返回当前系统日期和时间         |
-| UTC_DATE()                                                   | 返回UTC时间                    |
-|                                                              |                                |
-|                                                              |                                |
-|                                                              |                                |
-|                                                              |                                |
-|                                                              |                                |
-|                                                              |                                |
-|                                                              |                                |
-|                                                              |                                |
-|                                                              |                                |
-|                                                              |                                |
-|                                                              |                                |
+| 函数                                                         | 用法                                       |
+| ------------------------------------------------------------ | ------------------------------------------ |
+| **<font color=red>CURDATE()</font>**,CURRENT_DATE()          | 返回当前日期，只包含年、月、日             |
+| **<font color=red>CURTIME()</font>**,CURRENT_TIME()          | 返回当前时间，只包含时，分，秒             |
+| **<font color=red>NOW()</font>** / SYSDATA()/ CURRENT_TIMESTAMP() / LOCALTIME() / LOCALTIMESTAMP() | 返回当前系统日期和时间                     |
+| UTC_DATE()                                                   | 返回UTC日期                                |
+| UTC_TIME()                                                   | 返回UTC时间                                |
+| UNIX_TIMESTAMP()                                             | 以UNIX时间戳的形式返回当前时间             |
+| UNIX_TIMESTAMP(DATE)                                         | 将时间date以UNIX时间戳的形式返回           |
+| FROM_UNIXTIME(TIMESTAMP)                                     | 将UNIX时间戳的时间转换为普通格式的时间     |
+| YEAR(DATE)/MONTH(DATE)/DAY(DATE)                             | 返回具体的日期值                           |
+| HOUR(TIME)/MINUTE(TIME)/SECOND(TIME)                         | 返回具体的时间值                           |
+| MONTHNAME(DATE)                                              | 返回月份                                   |
+| DAYNAME(DATE)                                                | 返回星期几                                 |
+| WEEKNAME(DATE)                                               | 返会周几 周1是0                            |
+| QUARTER(DATE)                                                | 返回日期对应的季度                         |
+| WEEK(DATE),WEEKOFYEAR(DATE)                                  | 返回一年中的第几周                         |
+| DAYOFYEAR(DATE)                                              | 返回日期是一年中的第几天                   |
+| DAYOFMONTH(DATE)                                             | 返回日期位于所在月份的第几天               |
+| DAYOFWEEK(DATE)                                              | 返回周几，周日是1                          |
+| EXTRACT(TYPE FROM DATE)                                      | 返回指定日期中特定的部分，type指定返回的值 |
+
+![TYPE](F:\Study_con\MySQL\TYPE1.Jpeg)
+
+| 函数                                                         | 用法                                               |
+| ------------------------------------------------------------ | -------------------------------------------------- |
+| TIME_TO_SEC(TIME)                                            | 将time转化为秒并返回结果值。                       |
+| SEC_TO_TIME(SECONDS)                                         | 将seconds描述为包含小时，分和秒的时间              |
+| DATE_ADD(DATETIME,INTERVAL EXPR TYPE) , ADDDATE(DATE, INTERVAL EXPR TYPE) | 返回给定与给定日期时间相差INTERVAL时间段的日期时间 |
+| DATE_SUB(DATE,INTERVAL EXPR TYPE),SUBDATE(DATE, INTERVAL EXPR TYPE) | 返回与date相差INTERVAL的时间间隔的日期             |
+
+![interval](F:\Study_con\MySQL\intervaltype1.Jpeg)
+
+| 函数                              | 用法                                                         |
+| --------------------------------- | ------------------------------------------------------------ |
+| ADDTIME(TIME1, TIME2)             | 返回time1加上time2的时间，当time2为一个数字时，代表的是秒，可以为负数 |
+| SUBTIME(TIME1, TIME2)             | 返回time1减上time2的时间，当time2为一个数字时，代表的是秒，可以为负数 |
+| DATEDIFF(DATE1,DATE2)             | 返回date1-date2的日期间隔天数                                |
+| TIMEDIFF(TIME1,TIME2)             | 返回time1-time2的时间间隔                                    |
+| FROM_DAYS(N)                      | 返回从0000年1月1日起，N天以后的日期                          |
+| TO_DAYS(DATE)                     | 返回日期date距离0000年1月1日的天数                           |
+| LAST_DAYS(DATE)                   | 返回date所在月份的最后一天日期                               |
+| MAKEDATE(YEAR,N)                  | 针对给定年份与所在年份中的天数返回一个日期                   |
+| MAKETIME(HOUR, MINUTE,SECOND)     | 将给定的小时，分钟和秒组合成时间并返回                       |
+| PERIOD_ADD(TIME,N)                | 返回time加上n后的时间                                        |
+| DATE_FORMAT(DATE,FMT)             | 按照字符串fmt格式化日期date值                                |
+| TIME_FORMAT(TIME,FMT)             | 按照字符串fmt格式化时间time值                                |
+| GET_FORMAT(DATE_TYPE,FORMAT_TYPE) | 返回日期字符串的显示格式                                     |
+| STR_TO_DATE(STR,FMT)              | 按照字符串fmt和str进行解析，解析为一个日期                   |
+
+```mysql
+# 获取当前时间
+SELECT CURDATE(),CURTIME(),NOW(),UTC_DATE(),UTC_TIME() FROM DUAL;
+
+# 日期与时间戳的转换
+SELECT UNIX_TIMESTAMP(),UNIX_TIMESTAMP('2024-9-22 13:34:22'),FROM_UNIXTIME(1635173853) FROM DUAL;
+
+# 获取月份，星期，星期数，天数等函数
+SELECT YEAR(CURDATE()),MONTH(CURDATE()),DAY(CURDATE()),HOUR(CURTIME()),MINUTE(NOW()),SECOND(SYSDATE()) FROM DUAL;
+
+SELECT MONTHNAME('2024-9-22'),DAYNAME('2024-9-22'),WEEKDAY('2024-9-22'),QUARTER(CURDATE()),WEEK(CURDATE()),DAYOFYEAR(NOW()),DAYOFMONTH(NOW()),DAYOFWEEK(NOW()) FROM DUAL;
+
+# 时间的操作函数
+SELECT EXTRACT(SECOND FROM NOW()) FROM DUAL;
+
+# 时间和秒钟转换的函数
+SELECT TIME_TO_SEC(CURTIME()),SEC_TO_TIME(83355) FROM DUAL;
+
+# 计算日期和时间函数
+SELECT NOW(),DATE_ADD(NOW(),INTERVAL 1 YEAR), DATE_ADD(NOW(),INTERVAL -1 YEAR),DATE_SUB(NOW(),INTERVAL 1 YEAR) FROM DUAL;
+
+SELECT 
+DATE_ADD(NOW(), INTERVAL 1 DAY) AS col1, 
+DATE_ADD('2024-9-22 14:29:01', INTERVAL 1 SECOND) AS col2, 
+ADDDATE('2024-9-22 14:29:01', INTERVAL 1 SECOND) AS col3, 
+DATE_ADD('2024-9-22 14:29:01', INTERVAL '1_1' MINUTE_SECOND) AS col4,
+DATE_ADD(NOW(),INTERVAL -1 YEAR) AS col5, # 可以是负数
+DATE_ADD(NOW(),INTERVAL '1_1' YEAR_MONTH) AS col6 # 需要单引号
+FROM DUAL;
+
+SELECT ADDTIME(NOW(),20),
+SUBTIME(NOW(),30),SUBTIME(NOW(),'1:1:3'),
+DATEDIFF(NOW(),'2024-9-22'),TIMEDIFF(NOW(),'2024-9-22 14:29:01'),
+FROM_DAYS(366),TO_DAYS('0000-12-24'),LAST_DAT(NOW()),
+MAKEDATE(YEAR(NOW()),12),MAKETIME(10,21,23),
+PERIOD_ADD(20200101010101,10)
+FROM DUAL;
+
+SELECT COUNT(*) AS num FROM new_user WHERE TO_DAYS(NOW()) - TO_DAYS(register_time) >= 7;
+
+# 日期的格式化与解析
+# 格式化： 日期 ---> 字符串
+# 解析：   字符串  --->  日期
+```
+
+* **流程控制函数**
+
+| 函数                                                         | 用法                                            |
+| ------------------------------------------------------------ | ----------------------------------------------- |
+| IF(VALUE,VALUE1,VALUE2)                                      | 如果value的值为TRUE，返回value1，否则返回value2 |
+| IFNULL(VALUE1,VALUE2)                                        | 如果value1不为NULL，返回value1，否则返回value2  |
+| CASE WHEN 条件1 THEN 结果1 WHEN 条件2 THEN 结果2 ... [ELSE resultn] END | 相当于C++中的if...else if ..... else ...        |
+| CASE expr WHEN 常量值1 THEN 值1 WHEN 常量值1 THEN 值1 ... [ELSE 值n] END | 相当于C++中的switch... case ...                 |
+
+```mysql
+# IF(VALUE,VALUE1,VALUE2)
+SELECT last_name, salary, IF(salary >= 6000,'高工资','低工资') FROM employees;
+
+SELECT last_name,commision_pct,IF(commission_pct IS NOT NULL,commission_pct,0) "details", salary * 12 * (1 + IF(commission_pct IS NOT NULL,commission_pct,0)) "annual_sal" FROM employees;
+
+# IFNULL(VALUE1,VALUE2)：看作是 IF(VALUE,VALUE1,VALUE2)的特殊情况
+SELECT last_name,commission_pct,IFNULL(commission_pct,0) "details" FROM employees;
+
+# CASE WHEN ... THEN ... WHEN ... THEN ... ELSE ... END
+SELECT last_name,salary, CASE WHEN salary >= 15000 THEN '白骨精'
+						      WHEN salary >= 10000 THEN '潜力股'
+						      WHEN salary >= 8000 THEN '小屌丝'
+						      ELSE '草根' END "details"   # ELSE 可以不写
+FROM employees;
+
+# CASE ... WHEN ... THEN ... WHEN ... THEN ... ELSE ... END
+SELECT employee_id,salary, depatment_id,salary 
+CASE department_id WHEN 10 THEN salary * 1.1
+				   WHEN 20 THEN salary * 1.2 
+				   WHEN 30 THEN salary * 1.3 
+				   ELSE salary * 1.4 END "details"   # ELSE 可以不写
+FROM employees;
+```
+
+* **加密与解密函数**
+
+| 函数                         | 用法                                                         |
+| ---------------------------- | ------------------------------------------------------------ |
+| PASSWORD(STR)                | 返回字符串str的加密版本，41位长的字符串。加密结果**<font color=red>不可逆</font>**，常用于账户密码的加密。sql8.0之后弃用 |
+| MD5(STR)                     | 返回字符串str的md5加密后的值，也是一种加密方式。若参数位NULL，返回NULL |
+| SHA(STR)                     | 从原明文密码str计算并返回加密后的密码字符串，若参数位NULL时，返回NULL。SHA加密算法比MD5更加安全。 |
+| ENCODE(VALUE, PASSWORD_SEED) | 返回使用password_seed作为加密密码加密value                   |
+| DECODE(VALUE, PASSWORD_SEED) | 返回使用password_seed作为加密密码解密value                   |
+
+* **MySQL信息函数**
+
+| 函数                                               | 用法                                                   |
+| -------------------------------------------------- | ------------------------------------------------------ |
+| VERSION()                                          | 返回当前MySQL的版本号                                  |
+| CONNECTION_ID()                                    | 返回当前MySQL服务器的连接数                            |
+| DATABASE(),SCHEMA()                                | 返回MySQL命令行当前的数据库                            |
+| USER(),CURRENT_USER(),SYSTEM_USER(),SESSION_USER() | 返回当前连接MySQL的用户名，返回结果格式为"主机@用户名" |
+| CHARSET(VALUE)                                     | 返回字符串value自变量的字符集                          |
+| COLLATION(VALUE)                                   | 返回字符串value的比较规则                              |
+
+* **其他函数**
+
+| 函数                | 用法                                                         |
+| ------------------- | ------------------------------------------------------------ |
+| FORMAT(VALUE,N)     | 返回对数字value进行格式化后的结果数据，n表示四舍五入后保留到小数点后n位，如果n小于或者等于0，则只保留整数部分 |
+| CONV(VALUE,FROM,TO) | 将value的值进行不同进制之间的转换                            |
+| INET_ATON(IPVALUE)  | 将以点分隔的ip地址转换为一个数字                             |
+| INET_NTOA(VALUE)    | 将数字形式的ip地址转化为以点分隔得IP地址                     |
+| BENCHMARK(N,EXPR)   | 将表达式expr重复执行n次。用于测试处理expr所消耗的时间        |
+| CONVERT(N,EXPR)     | 将value所使用的字符编码修改为char_code                       |
 
