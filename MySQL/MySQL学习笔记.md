@@ -480,7 +480,7 @@ SELECT CONCAT(emp.last_name,'worked for',mgr.laste_name) FROM employees emp JOIN
 | DAYOFWEEK(DATE)                                              | 返回周几，周日是1                          |
 | EXTRACT(TYPE FROM DATE)                                      | 返回指定日期中特定的部分，type指定返回的值 |
 
-![TYPE](F:\Study_con\MySQL\TYPE1.Jpeg)
+![TYPE](TYPE1.Jpeg)
 
 | 函数                                                         | 用法                                               |
 | ------------------------------------------------------------ | -------------------------------------------------- |
@@ -489,7 +489,7 @@ SELECT CONCAT(emp.last_name,'worked for',mgr.laste_name) FROM employees emp JOIN
 | DATE_ADD(DATETIME,INTERVAL EXPR TYPE) , ADDDATE(DATE, INTERVAL EXPR TYPE) | 返回给定与给定日期时间相差INTERVAL时间段的日期时间 |
 | DATE_SUB(DATE,INTERVAL EXPR TYPE),SUBDATE(DATE, INTERVAL EXPR TYPE) | 返回与date相差INTERVAL的时间间隔的日期             |
 
-![interval](F:\Study_con\MySQL\intervaltype1.Jpeg)
+![interval](intervaltype1.Jpeg)
 
 | 函数                              | 用法                                                         |
 | --------------------------------- | ------------------------------------------------------------ |
